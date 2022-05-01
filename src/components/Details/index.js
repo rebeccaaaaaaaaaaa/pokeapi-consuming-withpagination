@@ -12,6 +12,8 @@ import {
 import styled from "styled-components";
 
 function PokeDetails(props) {
+
+
   return (
     <>
       <Modal isOpen={props.isOpen} onClose={props.onClose}>

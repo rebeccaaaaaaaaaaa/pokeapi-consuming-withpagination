@@ -6,6 +6,8 @@ import InputSearch from "./components/InputSearch";
 import PokeDetails from "./components/Details";
 import { SimpleGrid, Box, useDisclosure } from "@chakra-ui/react";
 import styled from "styled-components";
+import { useMediaQuery } from '@chakra-ui/react'
+
 
 function App() {
   const [pokeList, setPokeList] = useState([]);
@@ -14,6 +16,7 @@ function App() {
   const [pokeSearch, setPokeSearch] = useState("");
   const [currentPokemon, setCurrentPokemon] = useState({});
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isMobile] = useMediaQuery('(min-width: 992px)')
 
   useEffect(() => {
     fetch("https://pokeapi.co/api/v2/pokemon?limit=150")
@@ -59,10 +62,9 @@ function App() {
       <TopHeader />
       <div style={{ maxWidth: "800px", margin: "auto" }}>
         <InputSearch handleChange={handleChange} handleSubmit={handleSubmit} />
-
         {pokeSearch.name ? (
           <div style={{ marginTop: "50px", marginBottom: "100px" }}>
-            <SimpleGrid columns={4} spacingY="54px">
+            <SimpleGrid columns={2} spacingY="54px">
               <Card
                 onClick={() => {
                   setCurrentPokemon(pokeSearch);
@@ -77,7 +79,7 @@ function App() {
           </div>
         ) : (
           <div style={{ marginTop: "50px", marginBottom: "100px" }}>
-            <SimpleGrid columns={4} spacingY="54px">
+            <SimpleGrid columns={2} spacingY="54px">
               {pokeList.map((poke, id) => (
                 <div key={id}>
                   <div
