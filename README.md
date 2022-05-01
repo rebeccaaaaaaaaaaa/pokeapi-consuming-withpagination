@@ -4,6 +4,10 @@ Baixe ou clone o repositório
 Dentro da pasta do projeto - npm install - PARA INSTALAR AS DEPENDENCIAS
 RODE - npm run start - PARA RODAR O PROJETO
 
+# Implementações futuras
+
+- Criação e configuração da páginação
+
 # Pokedex (Redux + Styled Components)
 
 - Reactjs
