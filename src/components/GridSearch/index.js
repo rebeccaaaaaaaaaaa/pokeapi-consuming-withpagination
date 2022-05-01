@@ -24,6 +24,7 @@ const Card = styled(Box)`
   padding: 20px;
   margin: 10px;
   text-align: center;
+  cursor: pointer;
   transition: all 0.7s;
 
   &:hover {

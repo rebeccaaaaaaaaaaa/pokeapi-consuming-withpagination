@@ -15,8 +15,6 @@ function App() {
   const [currentPokemon, setCurrentPokemon] = useState({});
   const { isOpen, onOpen, onClose } = useDisclosure();
 
- 
-
   useEffect(() => {
     fetch("https://pokeapi.co/api/v2/pokemon?limit=150")
       .then((response) => response.json())
@@ -44,6 +42,19 @@ function App() {
       });
   };
 
+  const insideDetails = (idPoke) => {
+    fetch(`https://pokeapi.co/api/v2/pokemon/${idPoke}/`)
+      .then((response) => response.json())
+      .then((data) => {
+        setCurrentPokemon(data);
+      });
+      
+      //redefinir os estados
+      setPokeSearch("");
+      setPokeImage("");
+
+  };
+
 
   return (
     <div>
@@ -69,11 +80,13 @@ function App() {
                     onClick={() => {
                       setCurrentPokemon(poke);
                       onOpen();
+                      insideDetails(poke.url.split("/")[6]);
                     }}
                   >
-                    <GridSearch pokeName={poke.name} pokeId={
-                      poke.url.split("/")[6]
-                    } />
+                    <GridSearch
+                      pokeName={poke.name}
+                      pokeId={poke.url.split("/")[6]}
+                    />
                   </div>
                 </div>
               ))}
@@ -87,6 +100,9 @@ function App() {
         isOpen={isOpen}
         onOpen={onOpen}
         namePokeDetails={currentPokemon.name}
+        baseXP={currentPokemon.base_experience}
+        height={currentPokemon.height}
+
       />
       {console.log(currentPokemon)}
       <GlobalStyle />

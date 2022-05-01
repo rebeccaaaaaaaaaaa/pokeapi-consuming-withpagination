@@ -12,6 +12,8 @@ import {
 
   function PokeDetails(props) {
 
+   
+
     return (
       <>
         
@@ -22,7 +24,10 @@ import {
             <ModalCloseButton />
             <ModalBody>
               <div id="details">
-                
+                <p><strong> Base de Eperiencia </strong> : {props.baseXP}</p>
+                <p><strong> Altura </strong> : {props.height}</p>
+              
+
               </div>
             </ModalBody>
   
