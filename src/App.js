@@ -3,29 +3,31 @@ import { GlobalStyle } from "./styles/GlobalStyle";
 import TopHeader from "./components/TopHeader";
 import GridSearch from "../src/components/GridSearch";
 import InputSearch from "./components/InputSearch";
-import { Container, SimpleGrid } from "@chakra-ui/react";
+import PokeDetails from "./components/Details";
+import { SimpleGrid, Box, useDisclosure } from "@chakra-ui/react";
+import styled from "styled-components";
 
 function App() {
   const [pokeList, setPokeList] = useState([]);
   const [pokeImage, setPokeImage] = useState("");
+  const [value, setValue] = useState("");
+  const [pokeSearch, setPokeSearch] = useState("");
+  const [currentPokemon, setCurrentPokemon] = useState({});
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+ 
 
   useEffect(() => {
-    fetch("https://pokeapi.co/api/v2/pokemon?limit=20")
+    fetch("https://pokeapi.co/api/v2/pokemon?limit=150")
       .then((response) => response.json())
       .then((data) => {
         setPokeList(data.results);
       });
   }, []);
 
-  //pegar valor digitardo no input
-  const [value, setValue] = useState("");
-  const [pokeSearch, setPokeSearch] = useState("");
-
   //função para pegar valor digitado no input
   const handleChange = (e) => {
     setValue(e.target.value);
-    console.log(e.target.value);
-
     //redefinir os estados
     setPokeSearch("");
     setPokeImage("");
@@ -38,24 +40,24 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         setPokeSearch(data);
-        setPokeImage(data.sprites.front_default);
+        setPokeImage(data.sprites.other.dream_world.front_default);
       });
   };
+
 
   return (
     <div>
       <TopHeader />
-
       <div style={{ maxWidth: "800px", margin: "auto" }}>
         <InputSearch handleChange={handleChange} handleSubmit={handleSubmit} />
 
         {pokeSearch.name ? (
           <div style={{ marginTop: "50px", marginBottom: "100px" }}>
             <SimpleGrid columns={4} spacingY="54px">
-              <div>
-                <h1>{pokeSearch.name}</h1>
-                <img src={pokeImage} alt={pokeSearch.name} />
-              </div>
+              <Card>
+                <img src={pokeImage} alt={pokeSearch.name} width="100%" />
+                <p>{pokeSearch.name}</p>
+              </Card>
             </SimpleGrid>
           </div>
         ) : (
@@ -63,9 +65,16 @@ function App() {
             <SimpleGrid columns={4} spacingY="54px">
               {pokeList.map((poke, id) => (
                 <div key={id}>
-                  <a href="">
-                    <GridSearch pokeName={poke.name} pokeId={id} />
-                  </a>
+                  <div
+                    onClick={() => {
+                      setCurrentPokemon(poke);
+                      onOpen();
+                    }}
+                  >
+                    <GridSearch pokeName={poke.name} pokeId={
+                      poke.url.split("/")[6]
+                    } />
+                  </div>
                 </div>
               ))}
             </SimpleGrid>
@@ -73,6 +82,13 @@ function App() {
         )}
       </div>
 
+      <PokeDetails
+        onClose={onClose}
+        isOpen={isOpen}
+        onOpen={onOpen}
+        namePokeDetails={currentPokemon.name}
+      />
+      {console.log(currentPokemon)}
       <GlobalStyle />
     </div>
 
@@ -81,3 +97,27 @@ function App() {
 }
 
 export default App;
+
+const Card = styled(Box)`
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 10px;
+  text-align: center;
+  transition: all 0.7s;
+
+  &:hover {
+    transform: scale(0.9);
+  }
+
+  img {
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+`;
