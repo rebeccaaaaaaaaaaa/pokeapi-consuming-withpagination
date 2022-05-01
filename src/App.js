@@ -64,7 +64,7 @@ function App() {
         <InputSearch handleChange={handleChange} handleSubmit={handleSubmit} />
         {pokeSearch.name ? (
           <div style={{ marginTop: "50px", marginBottom: "100px" }}>
-            <SimpleGrid columns={2} spacingY="54px">
+            <SimpleGrid columns={3} spacingY="54px">
               <Card
                 onClick={() => {
                   setCurrentPokemon(pokeSearch);
@@ -79,7 +79,7 @@ function App() {
           </div>
         ) : (
           <div style={{ marginTop: "50px", marginBottom: "100px" }}>
-            <SimpleGrid columns={2} spacingY="54px">
+            <SimpleGrid columns={3} spacingY="54px">
               {pokeList.map((poke, id) => (
                 <div key={id}>
                   <div
@@ -112,7 +112,6 @@ function App() {
         identicadorPokemon={currentPokemon.id}
         tag={currentPokemon.id}
       />
-      {console.log(currentPokemon)}
       <GlobalStyle />
     </div>
 
