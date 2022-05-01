@@ -48,13 +48,11 @@ function App() {
       .then((data) => {
         setCurrentPokemon(data);
       });
-      
-      //redefinir os estados
-      setPokeSearch("");
-      setPokeImage("");
 
+    //redefinir os estados
+    setPokeSearch("");
+    setPokeImage("");
   };
-
 
   return (
     <div>
@@ -65,9 +63,15 @@ function App() {
         {pokeSearch.name ? (
           <div style={{ marginTop: "50px", marginBottom: "100px" }}>
             <SimpleGrid columns={4} spacingY="54px">
-              <Card>
+              <Card
+                onClick={() => {
+                  setCurrentPokemon(pokeSearch);
+                  onOpen();
+                  insideDetails(pokeSearch.url.split("/")[6]);
+                }}
+              >
                 <img src={pokeImage} alt={pokeSearch.name} width="100%" />
-                <p>{pokeSearch.name}</p>
+                <p className="namePoke">{pokeSearch.name}</p>
               </Card>
             </SimpleGrid>
           </div>
@@ -102,7 +106,9 @@ function App() {
         namePokeDetails={currentPokemon.name}
         baseXP={currentPokemon.base_experience}
         height={currentPokemon.height}
-
+        weight={currentPokemon.weight}
+        identicadorPokemon={currentPokemon.id}
+        tag={currentPokemon.id}
       />
       {console.log(currentPokemon)}
       <GlobalStyle />
